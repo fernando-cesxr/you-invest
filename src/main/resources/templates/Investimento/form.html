@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body class="grey lighten-2">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Epic Task</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="active"><a href="/task">pendentes</a></li>
+                <li><a href="#">concluídas</a></li>
+                <li><a href="#">usuários</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <h2>Cadastrar Tarefa</h2>
+
+        <div class="card">
+            <form action="/task" method="post" th:object="${task}">
+                <div class="card-content">
+                    <div class="input-field">
+                        <input 
+                            type="text" 
+                            th:field="*{title}"
+                            th:classappend="${#fields.hasErrors('title')} ? invalid"
+                        >
+                        <label for="title">Nome</label>
+                        <span class="helper-text red-text" th:errors="*{title}"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <textarea 
+                            th:field="*{description}"
+                            class="materialize-textarea"
+                            th:classappend="${#fields.hasErrors('description')} ? invalid"
+                        ></textarea>
+                        <label for="description">Duração</label>
+                        <span class="helper-text red-text" th:errors="*{description}"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input 
+                            type="number" 
+                            th:field="*{title}"
+                            th:classappend="${#fields.hasErrors('title')} ? invalid"
+                        >
+                        <label for="title">Valor inicial</label>
+                        <span class="helper-text red-text" th:errors="*{title}"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input 
+                            type="number" 
+                            th:field="*{title}"
+                            th:classappend="${#fields.hasErrors('title')} ? invalid"
+                        >
+                        <label for="title">Valor final</label>
+                        <span class="helper-text red-text" th:errors="*{title}"></span>
+                    </div>
+
+                    <label for="score">Rendimento</label>
+                    <p class="range-field">
+                        <input 
+                            type="range" 
+                            th:field="*{score}"
+                            min="1" 
+                            max="100" 
+                        />
+                    </p>
+                    <span class="helper-text red-text" th:errors="*{score}"></span>
+
+                </div>
+                <div class="card-action right-align">
+                    <a href="/task" class="btn grey">
+                        <i class="material-icons left">chevron_left</i>
+                        cancelar
+                    </a>
+                    <button class="btn">
+                        <i class="material-icons left">check</i>
+                        cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

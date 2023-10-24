@@ -1,7 +1,11 @@
 package br.com.fiap.YouInvest.Investimento;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.scheduling.config.Task;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +23,13 @@ public class InvestimentoController {
     @Autowired
     InvestimentoService service;
 
+    @Autowired
+    MessageSource messages;
+
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, @AuthenticationPrincipal OAuth2User user){
+        model.addAttribute("username", user.getAttribute("name"));
+        model.addAttribute("avatar_url", user.getAttribute("avatar_url"));
         model.addAttribute("investimento", service.findAll());
         return "investimento/index";
     }
@@ -28,9 +37,9 @@ public class InvestimentoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes redirect) {
         if (service.delete(id)) {
-            redirect.addFlashAttribute("success", "Tarefa apagada com sucesso");
+            redirect.addFlashAttribute("success", getMessage("task.delete.success") );
         } else {
-            redirect.addFlashAttribute("error", "Tarefa não encontrada");
+            redirect.addFlashAttribute("error", getMessage("task.notfound")) ;
         }
         return "redirect:/investimento";
     }
@@ -48,6 +57,11 @@ public class InvestimentoController {
         service.save(investimento);
         redirect.addFlashAttribute("success", "Tarefa cadastrada com sucesso");
         return "redirect:/investimento";
+    }
+
+
+    private String getMessage(String code){
+        return messages.getMessage(code, null, LocaleContextHolder.getLocale());
     }
 
 }

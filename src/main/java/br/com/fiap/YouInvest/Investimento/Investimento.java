@@ -1,9 +1,11 @@
 package br.com.fiap.YouInvest.Investimento;
 
+import br.com.fiap.YouInvest.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,12 +30,15 @@ public class Investimento {
     @Max(100)
     Float Rendimento;
 
-    @Min(1)
+    @Min(0)
     @Max(100)
-    Integer Valor_inicial;
+    Integer Valor_inicial = 0;
 
     @Min(0)
     @Max(100)
     Integer Valor_final;
+
+    @ManyToOne
+    User user;
 
 }
